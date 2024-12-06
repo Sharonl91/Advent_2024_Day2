@@ -29,21 +29,28 @@ public class Main {
         return safeCount;
     }
     public static boolean checkSafe(ArrayList<Integer> levels){
+        int diff = 0;
         boolean safe = false;
         boolean in = false;
-        boolean de = false;
-        for (int i = 1; i < levels.size();i++){
-            int a = levels.get(i-1);
-            int b = levels.get(i);
-            System.out.println(Math.abs(a-b) + "");
-            if (Math.abs(a-b) <= 3 && !de || Math.abs(a-b) > 1 && !de){
+        int safeCount = 1;
+        diff = levels.get(0) - levels.get(1);
+        if (diff < 0){
+            in = true;
+        }
+        for(int i = 1; i < levels.size(); i++){
+            diff = levels.get(i-1) - levels.get(i);
+            if(!in && (diff >= 1 && diff <= 3)){
                 safe = true;
-                in = true;
-            } else if (Math.abs(b-a) <= 3 && !in || Math.abs(b-a) > 1 && !in) {
+            }
+            else if(in && (diff <= -1 && diff >= -3)){
                 safe = true;
-                de = true;
-            } else return safe;
-            System.out.println(safe);
+            }
+            else {
+                safeCount--;
+            }
+        }
+        if (safeCount <= 0){
+            safe = false;
         }
         return safe;
     }
